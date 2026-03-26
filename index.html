@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKS Info Solutions</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0f172a;color:#e2e8f0;}
+section{padding:60px 20px;}
+
+.top-header{text-align:center;padding:40px;background:#1e293b;}
+.top-header h1{font-size:36px;color:#38bdf8;}
+.top-header p{color:#cbd5f5;}
+
+.navbar{display:flex;justify-content:center;flex-wrap:wrap;background:#020617;}
+.navbar a{color:#fff;padding:12px 20px;}
+.navbar a:hover{background:#38bdf8;color:#000;border-radius:6px;}
+
+.hero{text-align:center;padding:80px;background:linear-gradient(to right,#0ea5e9,#6366f1);}
+.hero h2{font-size:36px;}
+.hero-btn{background:#fff;color:#000;padding:12px 20px;border-radius:8px;}
+
+.cards{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;}
+.card{background:#1e293b;padding:20px;border-radius:10px;width:250px;text-align:center;}
+.card h3{color:#38bdf8;}
+
+.order-form{max-width:400px;margin:auto;display:flex;flex-direction:column;gap:10px;}
+.order-form input,.order-form select,.order-form textarea{padding:10px;border-radius:6px;border:none;}
+.order-form button{background:#38bdf8;color:#000;padding:10px;border:none;border-radius:6px;}
+
+footer{text-align:center;padding:20px;background:#020617;}
+
+.popup{display:none;position:fixed;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;}
+.popup-content{background:#fff;color:#000;padding:30px;border-radius:10px;}
+
+#chatbot{position:fixed;bottom:80px;right:20px;width:300px;background:#1e293b;display:none;border-radius:10px;}
+#chat-header{background:#38bdf8;color:#000;padding:10px;}
+#chat-body{height:200px;overflow-y:auto;padding:10px;}
+#chatbot input,#chatbot button{width:90%;margin:5%;padding:8px;}
+#chat-toggle{position:fixed;bottom:20px;right:20px;background:#38bdf8;border:none;padding:15px;border-radius:50%;}
+</style>
+</head>
+
+<body>
+
+<header class="top-header">
+<h1>AKS Info Solutions</h1>
+<p>Innovating Technology | Owner: Mr. Pushpak Kumar Srivastava</p>
+</header>
+
+<nav class="navbar">
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#order">Get Service</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<section class="hero">
+<h2>Smart IT Solutions for Your Business</h2>
+<p>Web Development | AI | Software | Automation</p>
+<a href="#order" class="hero-btn">Get Started</a>
+</section>
+
+<section id="about">
+<h2>About Us</h2>
+<p>
+AKS Info Solutions provides cutting-edge IT services including website development,
+AI automation, and software solutions to help businesses grow digitally.
+</p>
+</section>
+
+<section id="services">
+<h2>Our Services</h2>
+<div class="cards">
+<div class="card">
+<h3>Website Development</h3>
+<p>₹3000+</p>
+</div>
+<div class="card">
+<h3>AI Chatbots</h3>
+<p>₹2000+</p>
+</div>
+<div class="card">
+<h3>Software Solutions</h3>
+<p>₹5000+</p>
+</div>
+</div>
+</section>
+
+<section id="order">
+<h2>Request Service</h2>
+<form class="order-form" id="orderForm">
+<input type="text" id="name" placeholder="Your Name" required>
+<input type="tel" id="phone" placeholder="Phone Number" required>
+
+<select id="item" required>
+<option value="">Select Service</option>
+<option>Website Development</option>
+<option>AI Chatbot</option>
+<option>Software Development</option>
+</select>
+
+<textarea id="address" placeholder="Project Details"></textarea>
+
+<button type="submit">Send Request via WhatsApp</button>
+</form>
+</section>
+
+<section id="contact">
+<h2>Contact</h2>
+<p>📞 8178726982</p>
+<p>📍 Varanasi, India</p>
+</section>
+
+<div id="popup" class="popup">
+<div class="popup-content">
+<h3>Request Sent!</h3>
+<button id="closePopup">Close</button>
+</div>
+</div>
+
+<footer>
+<p>© 2026 AKS Info Solutions</p>
+</footer>
+
+<!-- CHATBOT -->
+<div id="chatbot">
+<div id="chat-header">AKS AI Assistant</div>
+<div id="chat-body"></div>
+<input type="text" id="userInput" placeholder="Ask about services..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+<button id="chat-toggle" onclick="toggleChat()">💬</button>
+
+<script>
+const orderForm=document.getElementById('orderForm');
+const popup=document.getElementById('popup');
+const closePopup=document.getElementById('closePopup');
+
+orderForm.addEventListener('submit',function(e){
+e.preventDefault();
+
+const name=document.getElementById("name").value;
+const phone=document.getElementById("phone").value;
+const item=document.getElementById("item").value;
+const address=document.getElementById("address").value;
+
+const message=`New Client Request\nName: ${name}\nPhone: ${phone}\nService: ${item}\nDetails: ${address}`;
+
+window.open("https://wa.me/918178726982?text="+encodeURIComponent(message),"_blank");
+
+popup.style.display='flex';
+orderForm.reset();
+});
+
+closePopup.onclick=()=>popup.style.display='none';
+
+function toggleChat(){
+const bot=document.getElementById("chatbot");
+bot.style.display=bot.style.display==="block"?"none":"block";
+}
+
+function sendMessage(){
+const input=document.getElementById("userInput");
+let msg=input.value.toLowerCase();
+const chatBody=document.getElementById("chat-body");
+
+chatBody.innerHTML+=`<p><b>You:</b> ${msg}</p>`;
+
+let reply="";
+
+if(msg.includes("price")) reply="Website ₹3000+, Chatbot ₹2000+, Software ₹5000+";
+else if(msg.includes("website")) reply="We build modern responsive websites.";
+else if(msg.includes("ai")) reply="We provide AI chatbot automation.";
+else reply="Ask about services, pricing, or projects.";
+
+chatBody.innerHTML+=`<p><b>AI:</b> ${reply}</p>`;
+input.value="";
+chatBody.scrollTop=chatBody.scrollHeight;
+}
+</script>
+
+</body>
+</html>
